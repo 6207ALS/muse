@@ -1,0 +1,69 @@
+extends layout
+
+block main
+  div.post
+    form.post-delete(action=`/${username}/posts/${post.id}/destroy` method="POST")
+      input(type="hidden" name="id" value=post.id)
+      button(type="submit") Delete Post
+
+    form.post-edit(action=`/${username}/posts/${post.id}/edit` method="POST")
+      div.post-edit-input_container
+        label(for="postTitle") Title:
+        input(type="text" 
+              id="postTitle" 
+              name="title" 
+              value=post.title)
+
+      div.post-edit-input_container
+        label(for="postSong") Song:
+        input(type="text" 
+              id="postSong"
+              name="song"
+              value=post.song)
+        
+      div.post-edit-input_container
+        label(for="postArtist") Artist:
+        input(type="text" 
+              id="postArtist"
+              name="artist"
+              value=post.artist)
+
+      div.post-edit-input_container
+        label(for="postArtist") Description:
+        input(type="text" 
+              id="postDescription"
+              name="description"
+              value=post.description)
+
+      input(type="hidden" name="id" value=post.id)
+      button(type="submit") Submit Edits
+
+    form(action=`/${username}/posts` method="GET")
+      button(type="submit") Cancel
+
+
+  div.comments
+    h2 Comments
+    if comments.length > 0
+      each comment in comments
+        div.comment
+          p.comment-username=`${comment.username}`
+          p.comment-created=`${comment.created}`
+          p.comment-text=comment.comment
+          form.edit-comment_button(action=`/${username}/posts/${post.id}/comment/${comment.id}/edit`)
+            button(type="submit") Edit
+    else
+      p There are no comments yet.
+  div.pagination
+    if pageCount > 1
+      - prevPage = commentsPage - 1 < 1 ? commentsPage : commentsPage - 1
+      a(href=`/${username}/posts/${post.id}/comments/${prevPage}/edit`) &lt;
+
+      - for (let i = 1; i <= pageCount; i++) {
+        a(href=`/${username}/posts/${post.id}/comments/${i}/edit` 
+          class=(i === commentsPage ? "activePage" : ""))= i
+      - }
+
+      - nextPage = commentsPage + 1 > pageCount ? commentsPage : commentsPage + 1
+      - console.log("nextpage: ", nextPage);
+      a(href=`${username}/posts/${post.id}/comments/${nextPage}/edit`) &gt;

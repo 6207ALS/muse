@@ -1,0 +1,38 @@
+extends layout
+
+block main
+  h1.title Create a Post
+  div.post
+    form.post-create(action=`/posts/create` method="POST")
+      div.post-create-input_container
+        label(for="postTitle") Title:
+        input(type="text" 
+              id="postTitle" 
+              name="title" 
+              value= (post ? post.title : ""))
+
+      div.post-create-input_container
+        label(for="postSong") Song:
+        input(type="text" 
+              id="postSong" 
+              name="song" 
+              value= (post ? post.song : ""))
+        
+      div.post-create-input_container
+        label(for="postArtist") Artist:
+        input(type="text" 
+              id="postArtist" 
+              name="artist" 
+              value= (post ? post.artist : ""))
+
+      div.post-create-input_container
+        label(for="postArtist") Description:
+        input(type="text" 
+              id="postDescription" 
+              name="description" 
+              value= (post ? post.description : ""))
+
+      button(type="submit") Create Post
+
+    form(action=`/posts` method="GET")
+      button(type="submit") Cancel

@@ -1,0 +1,11 @@
+extends layout
+
+block main
+  h1.title=`${username}'s Posts`
+  each post in posts
+    div.user-post
+      a(href=`/posts/post/${post.id}/comments/1`)=post.title
+      if user === username
+        form(action=`/${username}/posts/${post.id}/comments/1/edit` method=`GET`)
+          button(type="submit") Edit
+      

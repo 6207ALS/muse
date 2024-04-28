@@ -1,0 +1,35 @@
+doctype html
+
+html
+  head
+    title Muse
+    link(rel="stylesheet" href="/stylesheets/app.css")
+  body
+    header
+      if signedIn
+        div.header_container
+          div.gap
+          div.logo
+            a(href="/")
+              h1.title Muse &#9834;
+          div.user_header
+            div.user-info
+              p=`Signed in as: ${username}`
+            div.user-settings
+              a(href=`/${username}/posts`) My Posts
+              form(action='/signout' method="POST")
+                button(type="submit") Sign out
+      div.flashMessages_container
+        - let flashCategories = Object.keys(flash || {})
+            if flashCategories.length > 0
+              ul
+                each category in flashCategories
+                  each msg in flash[category]
+                    li(class=`${category} flashMessage`)=msg
+
+    main
+      div.main_wrapper
+        div.main_container
+          block main
+
+

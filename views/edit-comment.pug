@@ -1,0 +1,17 @@
+extends layout
+
+block main
+  div.edit-comment
+    div
+      p.comment-username=`${comment.username}`
+      form(action=`/${username}/posts/${comment.post_id}/comment/${comment.id}/destroy`
+           method="POST")
+        button(type="submit") Delete Comment
+    p.comment-created=`${comment.created}`
+    form(action=`/${username}/posts/${comment.post_id}/comment/${comment.id}/edit`
+        method="POST")
+      input.comment-edit_input(type="text" name="comment" value=comment.comment)
+      button(type="submit") Submit Edits
+    form(action=redirectPath method="GET")
+      button.cancel(type="submit") Cancel
+  

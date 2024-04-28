@@ -1,0 +1,44 @@
+extends layout
+
+block main
+  div.post
+    h1=`${post.title}`
+    h3=`"${post.song}" by ${post.artist}`
+    p.post-description=`${post.description}`
+    p=`User: ${post.username}`
+    p=`Posted on: ${post.created}`
+  div.user-comment
+    h2=`Comment as ${username}`
+    form.comment_form(action=`/posts/post/${post.id}` method="POST")
+      input.comment_input(type="text" 
+                          placeholder='What are your thoughts?'
+                          name="comment"
+                          value= comment || "")
+      button.comment_button(type="submit") Comment
+  div.comments
+    h2 Comments
+    if comments.length > 0
+      each comment in comments
+        div.comment
+          p.comment-username=`${comment.username}`
+          p.comment-created=`${comment.created}`
+          p.comment-text=comment.comment
+          if comment.username === username
+            form.edit-comment_button(
+              action=`/${username}/posts/${post.id}/comment/${comment.id}/edit`)
+              button(type="submit") Edit
+    else
+      p There are no comments yet.
+  div.pagination
+    if pageCount > 1
+      - prevPage = commentsPage - 1 < 1 ? commentsPage : commentsPage - 1
+      a(href=`/posts/post/${post.id}/comments/${prevPage}`) &lt;
+
+      - for (let i = 1; i <= pageCount; i++) {
+        a(href=`/posts/post/${post.id}/comments/${i}` 
+          class=(i === commentsPage ? "activePage" : ""))= i
+      - }
+
+      - nextPage = commentsPage + 1 > pageCount ? commentsPage : commentsPage + 1
+      - console.log("nextpage: ", nextPage);
+      a(href=`/posts/post/${post.id}/comments/${nextPage}`) &gt;

@@ -1,0 +1,27 @@
+extends layout
+
+block main
+  div.posts_header
+    div.gap
+    div.title
+      h1 Posts
+    div.create-post_container
+      form(action=`/posts/create` method="GET")
+        button.create-post_button(type="submit") Create a post
+  if posts.length > 0
+    each post in posts
+      div.post-link
+        a(href=`/posts/post/${post.id}/comments/1`)=post.title
+        p=`${post.username}`
+  else
+    p There are no posts yet.
+  div.pagination
+    if pageCount > 1
+      a(href=`/posts/${pageNumber - 1 < 1 ? pageNumber : pageNumber - 1}`) &lt;
+
+      - for (let i = 1; i <= pageCount; i++) {
+        a(href=`/posts/${i}` 
+          class=(i === pageNumber ? "activePage" : ""))= i
+      - }
+
+      a(href=`/posts/${pageNumber + 1 > pageCount ? pageNumber : pageNumber + 1}`) &gt;
